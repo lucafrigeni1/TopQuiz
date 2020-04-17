@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        System.out.println("MainActivity::onCreate()");
+
         mUser = new User();
         mPreferences = getPreferences(MODE_PRIVATE);
         mwelcome = findViewById(R.id.Welcome);
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String firstName = mplayerName.getText().toString();
                 mUser.setFirstName(firstName);
-                mPreferences.edit().putString("Firstname", mUser.getFirstName()).apply();
+                mPreferences.edit().putString(PREF_KEY_FIRSTNAME, mUser.getFirstName()).apply();
                 Intent gameActivityIntent = new Intent(MainActivity.this, GameActivity.class);
                 startActivityForResult(gameActivityIntent, GAME_ACTIVITY_REQUEST_CODE);
             }
@@ -76,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
             super.onActivityResult(requestCode, resultCode, data);
             if (GAME_ACTIVITY_REQUEST_CODE == requestCode && RESULT_OK == resultCode) {
                 int score = data.getIntExtra(GameActivity.BUNDLE_EXTRA_SCORE, 0);
-                mPreferences.edit().putInt("score", score).apply();
+                mPreferences.edit().putInt(PREF_KEY_SCORE, score).apply();
 
                 greetUser();
             }
@@ -98,5 +100,39 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        System.out.println("MainActivity::onStart()");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        System.out.println("MainActivity::onResume()");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        System.out.println("MainActivity::onPause()");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        System.out.println("MainActivity::onStop()");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        System.out.println("MainActivity::onDestroy()");
+    }
 
 }
