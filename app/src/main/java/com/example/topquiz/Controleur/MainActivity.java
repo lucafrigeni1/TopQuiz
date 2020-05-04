@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
             if (GAME_ACTIVITY_REQUEST_CODE == requestCode && RESULT_OK == resultCode) {
                 int score = data.getIntExtra(GameActivity.BUNDLE_EXTRA_SCORE, 0);
                 mPreferences.edit().putInt(PREF_KEY_SCORE, score).apply();
+                mPreferences.edit().put
 
                 greetUser();
             }
