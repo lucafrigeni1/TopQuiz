@@ -1,22 +1,41 @@
 package com.example.topquiz.Modele;
 
-import androidx.annotation.NonNull;
+import java.util.ArrayList;
 
 public class User {
-    private String mFirstName;
+    private String mName;
+    private int mScore;
 
-    public String getFirstName() {
-        return mFirstName;
+    public User(){
+
     }
 
-    public void setFirstName(String mFirstName) {
-        this.mFirstName = mFirstName;
+    public User(String name, int score){
+        mName = name;
+        mScore = score;
+    }
+
+    public String getName() {
+        return mName;
+    }
+
+    public void setName(String mName) {
+        this.mName = mName;
+    }
+
+    public int getmScore() {
+        return mScore;
+    }
+
+    public void setmScore(int mScore) {
+        this.mScore = mScore;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "mFirstName='" + mFirstName + '\'' +
+                "mName='" + mName + '\'' +
                 '/';
     }
 }
+

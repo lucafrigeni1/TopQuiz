@@ -133,6 +133,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 })
                 .create()
                 .show();
+
     }
 
     private void displayQuestion(final Question question){
