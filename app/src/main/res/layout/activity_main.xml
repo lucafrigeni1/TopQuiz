@@ -27,8 +27,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:padding="30dp"
+        android:padding="40dp"
         android:layout_marginTop="20dp"
         android:text="Let's Play !"/>
+
+    <Button
+        android:id="@+id/Score_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="15dp"
+        android:text="Watch the score"/>
 
 </LinearLayout>

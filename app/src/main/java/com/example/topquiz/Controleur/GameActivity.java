@@ -55,34 +55,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         mEnableTouchEvents = true;
-
-        mQuestion = findViewById(R.id.activity_game_question_text);
-        mAnswer1 = findViewById(R.id.activity_game_answer1_btn);
-        mAnswer2 = findViewById(R.id.activity_game_answer2_btn);
-        mAnswer3 = findViewById(R.id.activity_game_answer3_btn);
-        mAnswer4 = findViewById(R.id.activity_game_answer4_btn);
-
-        mAnswer1.setTag(0);
-        mAnswer2.setTag(1);
-        mAnswer3.setTag(2);
-        mAnswer4.setTag(3);
-
-        mAnswer1.setOnClickListener(this);
-        mAnswer2.setOnClickListener(this);
-        mAnswer3.setOnClickListener(this);
-        mAnswer4.setOnClickListener(this);
-
+        findViewById();
+        answerSettings();
 
         mCurrentQuestion = mQuestionBank.getQuestion();
         this.displayQuestion(mCurrentQuestion);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putInt(BUNDLE_STATE_SCORE, mScore);
-        outState.putInt(BUNDLE_STATE_QUESTION, mNumberOfQuestions);
-
-        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -114,26 +91,36 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(BUNDLE_STATE_SCORE, mScore);
+        outState.putInt(BUNDLE_STATE_QUESTION, mNumberOfQuestions);
+
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         return mEnableTouchEvents && super.dispatchTouchEvent(ev);
     }
 
-    private void endGame() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Well down!")
-                .setMessage("Your score is " + mScore)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent();
-                        intent.putExtra(BUNDLE_EXTRA_SCORE, mScore);
-                        setResult(RESULT_OK, intent);
-                        finish();
-                    }
-                })
-                .create()
-                .show();
+    private void findViewById(){
+        mQuestion = findViewById(R.id.activity_game_question_text);
+        mAnswer1 = findViewById(R.id.activity_game_answer1_btn);
+        mAnswer2 = findViewById(R.id.activity_game_answer2_btn);
+        mAnswer3 = findViewById(R.id.activity_game_answer3_btn);
+        mAnswer4 = findViewById(R.id.activity_game_answer4_btn);
+    }
 
+    private void answerSettings(){
+        mAnswer1.setTag(0);
+        mAnswer2.setTag(1);
+        mAnswer3.setTag(2);
+        mAnswer4.setTag(3);
+
+        mAnswer1.setOnClickListener(this);
+        mAnswer2.setOnClickListener(this);
+        mAnswer3.setOnClickListener(this);
+        mAnswer4.setOnClickListener(this);
     }
 
     private void displayQuestion(final Question question){
@@ -152,6 +139,28 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         return new QuestionBank(Arrays.asList(question1, question2, question3, question4));
     }
+
+    private void endGame() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Well down!")
+                .setMessage("Your score is " + mScore)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent();
+                        intent.putExtra(BUNDLE_EXTRA_SCORE, mScore);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+                })
+                .create()
+                .show();
+    }
+
+
+
+
+
 
     @Override
     protected void onStart() {

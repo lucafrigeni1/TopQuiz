@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView mwelcome;
     private EditText mplayerName;
     private Button mplay;
+    private Button bscore;
     private User mUser;
     public static final int GAME_ACTIVITY_REQUEST_CODE = 42;
     private SharedPreferences mPreferences;
@@ -44,13 +45,59 @@ public class MainActivity extends AppCompatActivity {
 
         mUser = new User();
         mPreferences = getSharedPreferences("TopQuiz",MODE_PRIVATE);
+
+        findViewById();
+        goToScore();
+        userAllowToPlay();
+        greetUser();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+            if (GAME_ACTIVITY_REQUEST_CODE == requestCode && RESULT_OK == resultCode) {
+                int score = data.getIntExtra(GameActivity.BUNDLE_EXTRA_SCORE, 0);
+                mPreferences.edit().putInt(PREF_KEY_SCORE, score).apply();
+
+            String listJson = mPreferences.getString(PREF_KEY_LIST_SCORE, "");
+            Gson gson = new Gson();
+            Type userListType = new TypeToken<ArrayList<User>>(){}.getType();
+            ArrayList<User> listUser = gson.fromJson(listJson, userListType);
+            if (listUser == null){
+                listUser = new ArrayList<>();
+            }
+
+            mUser.setmScore(score);
+            listUser.add(mUser);
+
+            listJson = gson.toJson(listUser);
+            mPreferences.edit().putString(PREF_KEY_LIST_SCORE,listJson).apply();
+
+            scoreListIntent();
+
+            greetUser();
+        }
+    }
+
+    private void findViewById(){
         mwelcome = findViewById(R.id.Welcome);
         mplayerName = findViewById(R.id.Name);
         mplay = findViewById(R.id.Play);
+        bscore = findViewById(R.id.Score_button);
+    }
 
+    private void goToScore() {
+        bscore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent ScoreActivityIntent = new Intent(MainActivity.this, ScoreList.class);
+                startActivity(ScoreActivityIntent);
+            }
+        });
+    }
+
+    private void userAllowToPlay() {
         mplay.setEnabled(false);
-
-        greetUser();
 
         mplayerName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -77,35 +124,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(gameActivityIntent, GAME_ACTIVITY_REQUEST_CODE);
             }
         });
-
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (GAME_ACTIVITY_REQUEST_CODE == requestCode && RESULT_OK == resultCode) {
-            int score = data.getIntExtra(GameActivity.BUNDLE_EXTRA_SCORE, 0);
-            mPreferences.edit().putInt(PREF_KEY_SCORE, score).apply();
-
-            String listJson = mPreferences.getString(PREF_KEY_LIST_SCORE, "");
-            Gson gson = new Gson();
-            Type userListType = new TypeToken<ArrayList<User>>(){}.getType();
-            ArrayList<User> listUser = gson.fromJson(listJson, userListType);
-            if (listUser == null){
-                listUser = new ArrayList<>();
-            }
-
-            mUser.setmScore(score);
-            listUser.add(mUser);
-
-            listJson = gson.toJson(listUser);
-            mPreferences.edit().putString(PREF_KEY_LIST_SCORE,listJson).apply();
-
-            Intent ScoreListIntent = new Intent(MainActivity.this, ScoreList.class);
-            startActivity(ScoreListIntent);
-
-            greetUser();
-        }
+    private void scoreListIntent(){
+        Intent ScoreListIntent = new Intent(MainActivity.this, ScoreList.class);
+        startActivity(ScoreListIntent);
     }
 
     private void greetUser() {
@@ -123,6 +146,10 @@ public class MainActivity extends AppCompatActivity {
             mplay.setEnabled(true);
         }
     }
+
+
+
+
 
     @Override
     protected void onStart() {

@@ -1,19 +1,8 @@
 package com.example.topquiz.Modele;
 
-import java.util.ArrayList;
-
 public class User {
     private String mName;
     private int mScore;
-
-    public User(){
-
-    }
-
-    public User(String name, int score){
-        mName = name;
-        mScore = score;
-    }
 
     public String getName() {
         return mName;
