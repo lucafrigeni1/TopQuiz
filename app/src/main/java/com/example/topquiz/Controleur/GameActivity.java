@@ -1,8 +1,5 @@
 package com.example.topquiz.Controleur;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,29 +9,30 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.topquiz.Modele.Question;
 import com.example.topquiz.Modele.QuestionBank;
 import com.example.topquiz.R;
+
 import java.util.Arrays;
 
-public class GameActivity extends AppCompatActivity implements View.OnClickListener{
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
+public class GameActivity extends AppCompatActivity implements View.OnClickListener {
+
+    public static final String BUNDLE_EXTRA_SCORE = "BUNDLE_EXTRA_SCORE";
+    public static final String BUNDLE_STATE_SCORE = "currentScore";
+    public static final String BUNDLE_STATE_QUESTION = "currentQuestion";
     private TextView mQuestion;
     private Button mAnswer1;
     private Button mAnswer2;
     private Button mAnswer3;
     private Button mAnswer4;
-
     private QuestionBank mQuestionBank;
     private Question mCurrentQuestion;
-
     private int mScore;
     private int mNumberOfQuestions;
-
-    public static final String BUNDLE_EXTRA_SCORE = "BUNDLE_EXTRA_SCORE";
-    public static final String BUNDLE_STATE_SCORE = "currentScore";
-    public static final String BUNDLE_STATE_QUESTION = "currentQuestion";
-
     private boolean mEnableTouchEvents;
 
     @Override
@@ -46,11 +44,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         mQuestionBank = this.generateQuestions();
 
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             mScore = savedInstanceState.getInt(BUNDLE_STATE_SCORE);
             mNumberOfQuestions = savedInstanceState.getInt(BUNDLE_STATE_QUESTION);
-        }else{
-            mScore=0;
+        } else {
+            mScore = 0;
             mNumberOfQuestions = 4;
         }
 
@@ -65,10 +63,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         int responseIndex = (int) v.getTag();
-        if (responseIndex == mCurrentQuestion.getAnswerIndex()){
+        if (responseIndex == mCurrentQuestion.getAnswerIndex()) {
             Toast.makeText(this, "Correct", Toast.LENGTH_SHORT).show();
             mScore++;
-        }else{
+        } else {
             Toast.makeText(this, "Wrong", Toast.LENGTH_SHORT).show();
         }
 
@@ -79,9 +77,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             public void run() {
                 mEnableTouchEvents = true;
 
-                if (--mNumberOfQuestions==0){
+                if (--mNumberOfQuestions == 0) {
                     endGame();
-                }else{
+                } else {
                     mCurrentQuestion = mQuestionBank.getQuestion();
                     displayQuestion(mCurrentQuestion);
                 }
@@ -103,7 +101,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         return mEnableTouchEvents && super.dispatchTouchEvent(ev);
     }
 
-    private void findViewById(){
+    private void findViewById() {
         mQuestion = findViewById(R.id.activity_game_question_text);
         mAnswer1 = findViewById(R.id.activity_game_answer1_btn);
         mAnswer2 = findViewById(R.id.activity_game_answer2_btn);
@@ -111,7 +109,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         mAnswer4 = findViewById(R.id.activity_game_answer4_btn);
     }
 
-    private void answerSettings(){
+    private void answerSettings() {
         mAnswer1.setTag(0);
         mAnswer2.setTag(1);
         mAnswer3.setTag(2);
@@ -123,7 +121,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         mAnswer4.setOnClickListener(this);
     }
 
-    private void displayQuestion(final Question question){
+    private void displayQuestion(final Question question) {
         mQuestion.setText(question.getQuestion());
         mAnswer1.setText(question.getChoiceList().get(0));
         mAnswer2.setText(question.getChoiceList().get(1));
@@ -156,10 +154,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 .create()
                 .show();
     }
-
-
-
-
 
 
     @Override

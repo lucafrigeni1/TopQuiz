@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.topquiz.Modele.User;
@@ -17,23 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 public class ScoreListAdapter extends RecyclerView.Adapter<ScoreListAdapter.ViewHolder> {
 
     private List<User> mUsers;
+
     public ScoreListAdapter(List<User> listUser) {
         mUsers = listUser;
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
-        public TextView nameTextView;
-        public TextView scoreTextView;
-
-
-        public ViewHolder(View itemView) {
-
-            super(itemView);
-
-            nameTextView = itemView.findViewById(R.id.fragment_name);
-            scoreTextView = itemView.findViewById(R.id.fragment_score);
-        }
     }
 
     @Override
@@ -62,5 +47,20 @@ public class ScoreListAdapter extends RecyclerView.Adapter<ScoreListAdapter.View
     @Override
     public int getItemCount() {
         return mUsers.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        public TextView nameTextView;
+        public TextView scoreTextView;
+
+
+        public ViewHolder(View itemView) {
+
+            super(itemView);
+
+            nameTextView = itemView.findViewById(R.id.fragment_name);
+            scoreTextView = itemView.findViewById(R.id.fragment_score);
+        }
     }
 }
